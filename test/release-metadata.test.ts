@@ -118,12 +118,10 @@ describe('publishing pipeline', () => {
     expect(ci).toMatch(/permissions:\s+contents: read/);
   });
 
-  it('uses the npm token only in the one-time bootstrap workflow', () => {
+  it('uses no long-lived npm token in any workflow', () => {
     for (const [name, content] of Object.entries(workflows)) {
-      if (name === 'npm-bootstrap.yml') continue;
       expect(content, name).not.toContain('NPM_TOKEN');
     }
-    expect(workflows['npm-bootstrap.yml']).toContain('secrets.NPM_TOKEN');
   });
 
   it('never interpolates workflow inputs into shell scripts and never uses floating action refs', () => {

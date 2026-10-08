@@ -6,12 +6,11 @@ name: Publish
 # npm Trusted Publishing: npmjs.com > @kieksme/enhancv-mcp > Settings > Trusted Publisher must list
 # repository kieksme/mcp-enhancv with the workflow file name `publish.yml` (no environment). The file name must
 # not change. Trusted Publishing needs a GitHub-hosted runner, Node >= 22.14 and npm >= 11.5.1.
-# Until the package exists on npm, publish the first version with npm-bootstrap.yml (see CONTRIBUTING.md).
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag to publish (for example 0.1.0)
+        description: Release tag to publish (for example 1.0.0)
         required: true
         type: string
 
