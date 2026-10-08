@@ -1,4 +1,28 @@
-# Enhancv MCP server
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kieksme/skills/main/skills/platform/mcp-builder/templates/assets/kieks-me-banner-dark.svg">
+    <img alt="kieks.me" src="https://raw.githubusercontent.com/kieksme/skills/main/skills/platform/mcp-builder/templates/assets/kieks-me-banner-light.svg" width="280">
+  </picture>
+</p>
+
+<h1 align="center">Enhancv MCP server</h1>
+<p align="center">Manage Enhancv resumes from any MCP client: list, read, create, upload, export (PDF), duplicate and delete.</p>
+
+<p align="center">
+  <a href="https://github.com/kieksme/mcp-enhancv/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/kieksme/mcp-enhancv/actions/workflows/ci.yml/badge.svg">
+  </a>
+  <a href="evaluations/README.md">
+    <img alt="MCP quality: evaluated" src="https://img.shields.io/badge/mcp--quality-evaluated-00FFDC?style=flat-square&labelColor=1E2A45">
+  </a>
+  <a href="./LICENSE">
+    <img alt="GPL-3.0-or-later license" src="https://img.shields.io/badge/license-GPL--3.0--or--later-1E2A45?style=flat-square">
+  </a>
+</p>
+
+Built with kieksme's [`mcp-builder`](https://github.com/kieksme/skills/tree/main/skills/platform/mcp-builder) skill.
+
+## Overview
 
 [Model Context Protocol](https://modelcontextprotocol.io) server for the [Enhancv](https://enhancv.com) resume API
 ([API documentation](https://developers.enhancv.com)). It lets an AI assistant list, read, create, upload, export (PDF),
@@ -12,6 +36,58 @@ duplicate and delete resumes in an Enhancv account.
 > **Requirements:** an Enhancv account on the **Business Plus** plan with an API key
 > (Enhancv > Account Settings > Profile > API Keys; the key is shown once and starts with `enh_live_`) and Node.js 22.14 or newer
 > (not needed for the container). Use of the API is subject to Enhancv's [terms](https://enhancv.com/terms).
+
+## Add to your editor / agent
+
+The buttons and snippets below install the **stdio** variant via `npx` (no hosting required). Add your `ENHANCV_API_KEY`
+afterwards (see [Configuration](#configuration)); the one-click links deliberately carry no credentials. For the Streamable HTTP
+variant (container or remote deployment) use the HTTP snippets and send `Authorization: Bearer <MCP_HTTP_AUTH_TOKEN>`.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=enhancv-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBraWVrc21lL2VuaGFuY3YtbWNwIl19)
+[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode:mcp/install?name=enhancv-mcp&config=%7B%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40kieksme/enhancv-mcp%22%5D%7D)
+
+**Claude Desktop** (`claude_desktop_config.json`): see [Quick start](#claude-desktop--any-mcp-client-that-uses-a-json-config).
+
+**Claude Code** (CLI):
+
+```bash
+# stdio
+claude mcp add enhancv-mcp -e ENHANCV_API_KEY=<your Enhancv API key> -- npx -y @kieksme/enhancv-mcp
+
+# Streamable HTTP, static bearer token
+claude mcp add --transport http enhancv-mcp http://127.0.0.1:3000/mcp --header "Authorization: Bearer <MCP_HTTP_AUTH_TOKEN>"
+```
+
+**OpenCode** (`opencode.json`):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "enhancv-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "@kieksme/enhancv-mcp"],
+      "environment": { "ENHANCV_API_KEY": "<your Enhancv API key>" },
+      "enabled": true
+    }
+  }
+}
+```
+
+Streamable HTTP variant:
+
+```json
+{
+  "mcp": {
+    "enhancv-mcp": {
+      "type": "remote",
+      "url": "http://127.0.0.1:3000/mcp",
+      "headers": { "Authorization": "Bearer <MCP_HTTP_AUTH_TOKEN>" },
+      "enabled": true
+    }
+  }
+}
+```
 
 ## Quick start
 
@@ -79,20 +155,24 @@ Then use the same `npx -y @kieksme/enhancv-mcp` command as above.
 | `MCP_HTTP_HOST` / `MCP_HTTP_PORT` | `127.0.0.1` / `3000` | Bind address and port (the image binds `0.0.0.0`). |
 | `MCP_HTTP_ALLOWED_HOSTS` | `127.0.0.1,localhost,[::1]` | Accepted `Host`/`Origin` host names (DNS rebinding protection). Required when binding beyond localhost. |
 
+**Authentication (Streamable HTTP transport):** static bearer token (`MCP_HTTP_AUTH_TOKEN`), enforced in the HTTP transport layer so an
+unauthenticated request never reaches a tool handler. The server is meant for single-tenant use; stdio needs no transport authentication.
+Credentials come from environment variables only, never from source or example config.
+
 ## Tools
 
 All tools return human-readable text plus `structuredContent`; list-like tools accept `response_format` (`markdown` or `json`).
 
-| Tool | Hints | What it does |
+| Tool | Description | Read-only |
 |---|---|---|
-| `enhancv_list_resumes` | read-only | Page through the account (cursor, `limit` 1-100). |
-| `enhancv_find_resumes` | read-only | Find resumes by title or file name; scans at most `max_pages` pages so API load stays bounded. |
-| `enhancv_get_resume` | read-only | Full content in Enhancv's analyzer format (identical to the create format) or a compact summary. |
-| `enhancv_create_resume` | write | Create a resume from structured data (`header`, `sections`, `style`), validated against the documented structure. |
-| `enhancv_upload_resume` | write | Upload a PDF/DOC/DOCX (file path or base64) and let Enhancv parse it. 10 MB limit. |
-| `enhancv_duplicate_resume` | write | Copy a resume (retrieve + create). Building block for edits, because Enhancv has no update endpoint. |
-| `enhancv_export_resume_pdf` | writes a local file only with `output_path` | Render the PDF exactly like the Enhancv editor; returns it inline or saves it. |
-| `enhancv_delete_resume` | destructive | Permanently delete a resume; requires `confirm: true`. |
+| `enhancv_list_resumes` | Page through the account (cursor, `limit` 1-100). | ✅ |
+| `enhancv_find_resumes` | Find resumes by title or file name; scans at most `max_pages` pages so API load stays bounded. | ✅ |
+| `enhancv_get_resume` | Full content in Enhancv's analyzer format (identical to the create format) or a compact summary. | ✅ |
+| `enhancv_create_resume` | Create a resume from structured data (`header`, `sections`, `style`), validated against the documented structure. | ❌ |
+| `enhancv_upload_resume` | Upload a PDF/DOC/DOCX (file path or base64) and let Enhancv parse it. 10 MB limit. | ❌ |
+| `enhancv_duplicate_resume` | Copy a resume (retrieve + create). Building block for edits, because Enhancv has no update endpoint. | ❌ |
+| `enhancv_export_resume_pdf` | Render the PDF exactly like the Enhancv editor; returns it inline or saves it (writes a local file only with `output_path`). | ❌ |
+| `enhancv_delete_resume` | **Destructive:** permanently delete a resume; requires `confirm: true`. | ❌ |
 
 Resources: `enhancv://reference/resume-structure` (sections, fields, ranges, layouts, fonts) and `enhancv://reference/icons`
 (the 230 documented icon identifiers). The create tool's input schema is about 17 KB because it describes all 26 section types.
@@ -139,10 +219,29 @@ errors and "Business Plus" on the authentication page; the rate-limit guide read
 
 See [SECURITY.md](SECURITY.md) for the capability list and how to report a vulnerability.
 
+## Usage
+
+```bash
+# stdio
+npx @modelcontextprotocol/inspector node dist/index.js
+
+# Streamable HTTP (server started with MCP_TRANSPORT=http)
+npx @modelcontextprotocol/inspector --transport http --server-url http://127.0.0.1:3000/mcp
+```
+
+Without an Enhancv account you can point the server at the bundled mock (`pnpm mock:api`, synthetic data only), see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Testing
+
+- **Lint**: `pnpm lint` (fix with `pnpm lint:fix`); ESLint 9 flat config with `typescript-eslint`, warns on `console.log` because stdout carries the stdio JSON-RPC stream.
+- **Unit tests**: `pnpm test` (Vitest, mocked Enhancv API, no account or network needed). Every tool has happy-path and error-path tests.
+- **Evaluation**: ten read-only questions with reference solutions run as part of `pnpm test`; see [`evaluations/README.md`](evaluations/README.md).
+
 ## Development
 
 ```bash
 pnpm install
+pnpm lint
 pnpm typecheck && pnpm build
 pnpm test            # unit tests + evaluation reference solutions (no Enhancv account needed)
 pnpm pack:check      # what npm would publish
@@ -152,6 +251,13 @@ pnpm mock:api        # local mock of the Enhancv API with synthetic resumes, for
 
 [`evaluations/`](evaluations) holds ten read-only evaluation questions with a synthetic account; see its README. Contributions and the
 release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Where to find this server
+
+- [ ] Submitted to [MCP Market](https://mcpmarket.com/submit)
+- [ ] Submitted to [MCP Marketplace](https://mcp-marketplace.io/)
+
+Both listings need a maintainer to sign in and submit the form manually.
 
 ## License
 

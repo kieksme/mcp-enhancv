@@ -103,7 +103,6 @@ export type ValidUpload = { filename: string; mimeType: string; extension: Uploa
 
 /** Keep only a plain, printable file name: no directories, quotes, control characters. */
 export function sanitizeFilename(name: string): string {
-  // eslint-disable-next-line no-control-regex
   const cleaned = basename(name.replaceAll('\\', '/')).replace(/[\u0000-\u001f"<>|:*?]/g, '_').trim();
   return cleaned.slice(0, 200);
 }
