@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/kieksme/mcp-enhancv/compare/1.0.0...1.0.1) (2026-10-08)
+
+
+### Fixed
+
+* report the real request timeout when a JSON body stalls ([#15](https://github.com/kieksme/mcp-enhancv/issues/15)) ([147e8ca](https://github.com/kieksme/mcp-enhancv/commit/147e8ca6ddb2ef1f588d86d14aa0e6d49c1d6873))
+
 ## 1.0.0 (2026-10-08)
 
 
