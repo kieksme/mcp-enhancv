@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "kieksme-enhancv",
+  "description": "Enhancv resume tools for Claude (MCP server @kieksme/enhancv-mcp)",
+  "owner": {
+    "name": "kieksme",
+    "url": "https://github.com/kieksme"
+  },
+  "plugins": [
+    {
+      "name": "enhancv",
+      "source": "./plugins/enhancv",
+      "description": "List, read, create, upload, export (PDF), duplicate and delete Enhancv resumes via MCP",
+      "category": "productivity"
+    }
+  ]
+}

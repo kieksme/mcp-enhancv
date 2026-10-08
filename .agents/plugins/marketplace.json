@@ -1,0 +1,20 @@
+{
+  "name": "kieksme-enhancv",
+  "interface": {
+    "displayName": "kieksme Enhancv"
+  },
+  "plugins": [
+    {
+      "name": "enhancv",
+      "source": {
+        "source": "local",
+        "path": "./plugins/enhancv"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

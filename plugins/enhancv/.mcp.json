@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "enhancv": {
+      "command": "npx",
+      "args": ["-y", "@kieksme/enhancv-mcp"],
+      "env_vars": ["ENHANCV_API_KEY", "ENHANCV_FILES_DIR"]
+    }
+  }
+}

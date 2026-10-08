@@ -1,0 +1,27 @@
+{
+  "name": "enhancv",
+  "version": "0.0.0",
+  "description": "Manage Enhancv resumes from Codex: list, read, create, upload, export (PDF), duplicate and delete.",
+  "author": {
+    "name": "kieksme",
+    "url": "https://github.com/kieksme"
+  },
+  "homepage": "https://github.com/kieksme/mcp-enhancv#readme",
+  "repository": "https://github.com/kieksme/mcp-enhancv",
+  "license": "GPL-3.0-or-later",
+  "keywords": ["enhancv", "resume", "cv", "mcp"],
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Enhancv",
+    "shortDescription": "Manage Enhancv resumes",
+    "longDescription": "List, read, create, upload, export as PDF, duplicate and delete resumes in an Enhancv account (Business Plus plan with an API key). Set ENHANCV_API_KEY in the environment Codex runs in.",
+    "developerName": "kieksme",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://github.com/kieksme/mcp-enhancv",
+    "defaultPrompt": [
+      "List my Enhancv resumes and tell me which one changed last",
+      "Export my newest resume as PDF"
+    ]
+  }
+}

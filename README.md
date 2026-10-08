@@ -58,6 +58,36 @@ claude mcp add enhancv-mcp -e ENHANCV_API_KEY=<your Enhancv API key> -- npx -y @
 claude mcp add --transport http enhancv-mcp http://127.0.0.1:3000/mcp --header "Authorization: Bearer <MCP_HTTP_AUTH_TOKEN>"
 ```
 
+**Claude Code plugin** (stdio via `npx`, the API key is prompted for and stored in the system keychain):
+
+```bash
+claude plugin marketplace add kieksme/mcp-enhancv
+claude plugin install enhancv@kieksme-enhancv
+```
+
+**Codex plugin** (stdio via `npx`; Codex reads the key from your environment, so export `ENHANCV_API_KEY` before starting it):
+
+```bash
+codex plugin marketplace add kieksme/mcp-enhancv
+# then open /plugins in Codex and install "Enhancv" from the kieksme Enhancv marketplace
+```
+
+Without the plugin, Codex can also use the server directly (`~/.codex/config.toml`):
+
+```toml
+[mcp_servers.enhancv]
+command = "npx"
+args = ["-y", "@kieksme/enhancv-mcp"]
+env_vars = ["ENHANCV_API_KEY"]
+```
+
+**Connector (claude.ai / ChatGPT custom connector):** not supported out of the box. Those products add remote servers by URL and
+authenticate with OAuth (or not at all), while this server's Streamable HTTP transport requires a static bearer token
+(`MCP_HTTP_AUTH_TOKEN`) that they cannot send. Running it without authentication on the internet is not an option because it
+holds your Enhancv API key and resume data. Use the plugins or a local stdio server instead; an OAuth-capable remote endpoint would
+need an authorization layer in front of it (not part of this project). Claude Code and Codex can use the HTTP endpoint directly with a
+bearer token (`claude mcp add --transport http ...` above, or `url` plus `bearer_token_env_var = "MCP_HTTP_AUTH_TOKEN"` in `config.toml`).
+
 **OpenCode** (`opencode.json`):
 
 ```json
