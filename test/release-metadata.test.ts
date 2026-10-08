@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { VERSION } from '../src/version.js';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const json = (path: string) => JSON.parse(read(path)) as Record<string, any>;
+const json = (path: string) => JSON.parse(read(path)) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any -- loose reads of arbitrary JSON config files
 
 const pkg = json('package.json');
 const workflows = Object.fromEntries(readdirSync(new URL('../.github/workflows/', import.meta.url)).map(file => [file, read(`.github/workflows/${file}`)]));
