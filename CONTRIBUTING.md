@@ -54,19 +54,17 @@ Release PRs created with the default `GITHUB_TOKEN` do not start the CI workflow
 ### One-time setup of a new repository
 
 1. **Actions permission:** Settings > Actions > General > *Allow GitHub Actions to create and approve pull requests*.
-2. **First npm publish (bootstrap).** npm Trusted Publishing can only be configured once the package exists.
-   1. Create a granular npm access token with publish rights for the `@kieksme` scope and store it as the repository secret `NPM_TOKEN`.
-   2. Merge the first release PR (tag `0.1.0`). `publish-npm` fails as expected; `publish-github` and the Docker build succeed.
-   3. Run the workflow **npm Bootstrap (one-time)** with the tag `0.1.0`.
+2. **First npm publish.** npm Trusted Publishing can only be configured once the package exists, so publish the first version manually
+   with a short-lived granular npm token (scope `@kieksme`, publish rights): `pnpm build && npm publish --access public --provenance=false`.
+   Revoke the token afterwards.
 3. **Trusted Publisher:** npmjs.com > `@kieksme/enhancv-mcp` > Settings > Trusted Publisher > GitHub Actions: organization/user `kieksme`, repository `mcp-enhancv`,
    workflow file `publish.yml`, no environment. Optionally restrict publishing to Trusted Publishers only (disallow tokens).
-4. **Clean up:** delete the `NPM_TOKEN` secret and `.github/workflows/npm-bootstrap.yml`.
-5. **GHCR visibility:** a new container package starts private. Open *Packages > enhancv-mcp > Package settings* and set the visibility to public.
+4. **GHCR visibility:** a new container package starts private. Open *Packages > enhancv-mcp > Package settings* and set the visibility to public.
    Packages published to GitHub Packages must have the scope `@kieksme` (the repository owner).
 
 ### Security notes for workflows
 
-- Secrets are only used by `npm-bootstrap.yml` (`NPM_TOKEN`); everything else runs on the short-lived `GITHUB_TOKEN` and OIDC.
+- No workflow uses a long-lived secret; everything runs on the short-lived `GITHUB_TOKEN` and OIDC.
 - Workflow inputs are passed through `env`, never interpolated into shell scripts.
 - Dependabot keeps npm packages, the Docker base image and GitHub Actions current. Consider pinning actions to commit SHAs if your policy requires it.
 
