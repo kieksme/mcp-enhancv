@@ -9,7 +9,8 @@ FROM node:26-alpine AS build
 # Keep in sync with "packageManager" in package.json (checked by test/release-metadata.test.ts).
 ARG PNPM_VERSION=10.33.2
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+# Node 25+ no longer ships Corepack, so install pnpm via npm.
+RUN npm install -g pnpm@${PNPM_VERSION}
 COPY package.json pnpm-lock.yaml .pnpmfile.cjs ./
 RUN pnpm install --frozen-lockfile
 COPY tsconfig.json tsconfig.build.json ./
