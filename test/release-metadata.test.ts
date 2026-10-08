@@ -42,6 +42,26 @@ describe('release identity', () => {
   });
 });
 
+describe('MCP Registry metadata', () => {
+  const server = json('server.json');
+
+  it('keeps server.json on the package version and lets Release Please bump it', () => {
+    expect(server.version).toBe(pkg.version);
+    expect(server.packages[0]).toMatchObject({ registryType: 'npm', identifier: pkg.name, version: pkg.version });
+    expect(pkg.mcpName).toBe(server.name);
+    const extra = json('release-please-config.json').packages['.']['extra-files'];
+    for (const jsonpath of ['$.version', '$.packages[0].version']) {
+      expect(extra).toContainEqual({ type: 'json', path: 'server.json', jsonpath });
+    }
+  });
+
+  it('declares secrets as secret and carries no credential values', () => {
+    const variables = server.packages[0].environmentVariables as Array<{ name: string; isSecret?: boolean; value?: string }>;
+    expect(variables.find(v => v.name === 'ENHANCV_API_KEY')?.isSecret).toBe(true);
+    expect(variables.every(v => v.value === undefined)).toBe(true);
+  });
+});
+
 describe('agent plugins (Claude Code and Codex)', () => {
   const claude = json('plugins/enhancv/.claude-plugin/plugin.json');
   const codex = json('plugins/enhancv/.codex-plugin/plugin.json');

@@ -15,6 +15,15 @@
   <a href="evaluations/README.md">
     <img alt="MCP quality: evaluated" src="https://img.shields.io/badge/mcp--quality-evaluated-00FFDC?style=flat-square&labelColor=1E2A45">
   </a>
+  <a href="https://www.npmjs.com/package/@kieksme/enhancv-mcp">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@kieksme/enhancv-mcp?style=flat-square&labelColor=1E2A45&color=00FFDC">
+  </a>
+  <a href="https://www.npmjs.com/package/@kieksme/enhancv-mcp">
+    <img alt="npm downloads" src="https://img.shields.io/npm/dm/@kieksme/enhancv-mcp?style=flat-square&labelColor=1E2A45&color=00FFDC">
+  </a>
+  <a href="https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.kieksme/enhancv-mcp">
+    <img alt="Official MCP Registry" src="https://img.shields.io/badge/MCP_Registry-io.github.kieksme%2Fenhancv--mcp-1E2A45?style=flat-square">
+  </a>
   <a href="./LICENSE">
     <img alt="GPL-3.0-or-later license" src="https://img.shields.io/badge/license-GPL--3.0--or--later-1E2A45?style=flat-square">
   </a>
@@ -284,10 +293,17 @@ release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Where to find this server
 
-- [ ] Submitted to [MCP Market](https://mcpmarket.com/submit)
-- [ ] Submitted to [MCP Marketplace](https://mcp-marketplace.io/)
+Listing status of the well-known MCP directories:
 
-Both listings need a maintainer to sign in and submit the form manually.
+- [ ] [Official MCP Registry](https://registry.modelcontextprotocol.io) as `io.github.kieksme/enhancv-mcp`. [`server.json`](server.json) and `mcpName` in `package.json` are in place; `publish.yml` pushes every release (GitHub OIDC). The first publish happens with the next release or a manual run of `publish.yml`.
+- [ ] [PulseMCP](https://www.pulsemcp.com/submit) ingests from the official registry; submit manually if it does not show up after a few days.
+- [ ] [Glama](https://glama.ai/mcp/servers): [`glama.json`](glama.json) claims ownership; add the server via the Glama UI.
+- [ ] [Smithery](https://smithery.ai/new): needs a maintainer to sign in and register the repository or package.
+- [ ] [mcp.so](https://mcp.so/submit): submission form.
+- [ ] [MCP Market](https://mcpmarket.com/submit)
+- [ ] [MCP Marketplace](https://mcp-marketplace.io/)
+
+Everything except the official registry (automated) needs a maintainer to sign in and submit manually.
 
 ## License
 
