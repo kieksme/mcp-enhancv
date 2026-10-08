@@ -165,6 +165,20 @@ describe('EnhancvClient error handling', () => {
     await expect(client.exportPdf('a1')).rejects.toMatchObject({ code: 'timeout', status: 0 });
   });
 
+  it('names the timeout of the request when a JSON body stalls', async () => {
+    const stall = () =>
+      new Response(new ReadableStream({ pull: controller => controller.error(new DOMException('timed out', 'TimeoutError')) }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    const { client } = make([stall(), stall()]);
+    await expect(client.listResumes()).rejects.toMatchObject({ code: 'timeout', message: expect.stringContaining('after 30 s') });
+    await expect(client.uploadResume({ filename: 'cv.pdf', mimeType: 'application/pdf', bytes: new Uint8Array([1]) })).rejects.toMatchObject({
+      code: 'timeout',
+      message: expect.stringContaining('after 60 s')
+    });
+  });
+
   it('maps timeouts and network failures without leaking details of the key', async () => {
     const timeout = new EnhancvClient(KEY, { fetcher: (async () => { throw new DOMException('timed out', 'TimeoutError'); }) as unknown as typeof fetch });
     await expect(timeout.getResume('a1')).rejects.toMatchObject({ code: 'timeout', status: 0 });
