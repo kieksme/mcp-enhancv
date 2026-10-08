@@ -120,7 +120,7 @@ export class EnhancvClient {
     const form = new FormData();
     form.append('file', new Blob([file.bytes as BlobPart], { type: file.mimeType }), file.filename);
     const { response, meta } = await this.request({ method: 'POST', path: 'resumes/upload', form, timeoutMs: TIMEOUTS.upload });
-    return { data: this.parseId(await this.readJson(response), meta), meta };
+    return { data: this.parseId(await this.readJson(response, TIMEOUTS.upload), meta), meta };
   }
 
   /** `GET /resumes/{id}/pdf` - raw PDF bytes (5-15 s). */
@@ -160,12 +160,13 @@ export class EnhancvClient {
     }
   }
 
-  private async readJson(response: Response): Promise<unknown> {
+  /** `timeoutMs` is the timeout of the request the body belongs to; it only labels the error message. */
+  private async readJson(response: Response, timeoutMs: number = TIMEOUTS.default): Promise<unknown> {
     let text: string;
     try {
-      text = new TextDecoder().decode(await this.readBytes(response, TIMEOUTS.upload));
+      text = new TextDecoder().decode(await this.readBytes(response, timeoutMs));
     } catch (error) {
-      throw error instanceof EnhancvError ? error : this.transportError(error, TIMEOUTS.default);
+      throw error instanceof EnhancvError ? error : this.transportError(error, timeoutMs);
     }
     try {
       return text ? JSON.parse(text) : {};
