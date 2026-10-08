@@ -68,7 +68,7 @@ describe('publishing pipeline', () => {
 
   it('dispatches both publishers after a Release Please release', () => {
     const release = workflows['release-please.yml']!;
-    expect(release).toContain('googleapis/release-please-action@v4');
+    expect(release).toContain('googleapis/release-please-action@v5');
     expect(release).toContain('gh workflow run publish.yml');
     expect(release).toContain('gh workflow run docker-publish.yml');
     expect(release).toContain('release-please-config.json');
