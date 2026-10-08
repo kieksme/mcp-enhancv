@@ -1,0 +1,42 @@
+<evaluation>
+  <qa_pair>
+    <question>Which resume belongs to a person based in Lisbon, Portugal who holds a certificate issued by HashiCorp? Answer with the resume title exactly as shown in the account.</question>
+    <answer>Platform Engineer - SRE</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>How many resumes in the account use the "timeline" layout? Answer with a number.</question>
+    <answer>3</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Among the resumes that are set to US Letter page size, which one lists the most work experience entries? Answer with the resume title.</question>
+    <answer>Engineering Manager</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Which file name does Enhancv suggest for the PDF download of the resume whose title contains "Architect"? Answer with the exact file name including the extension.</question>
+    <answer>Camille Dupont.pdf</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>When the resumes are listed oldest first by their ID, what is the title of the eighth resume?</question>
+    <answer>Security Analyst</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>The person behind the most recently modified resume (latest updatedAt) - what is their full name as written in the resume header?</question>
+    <answer>Rui Costa</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>How many resumes list Spanish as a language with the level text "Native"? Answer with a number.</question>
+    <answer>2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Which person has a position at Northwind Logistics that is still ongoing? Answer with the full name from the resume header.</question>
+    <answer>Lena Fischer</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>In the resume titled "Platform Engineer - SRE", in which calendar month did the position at Contoso Cloud start? Answer as YYYY-MM using the real month number from 01 (January) to 12 (December).</question>
+    <answer>2021-03</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Among the resumes that use the heading font "montserrat", which person lists the most skills rated 9 or higher? Answer with the full name from the resume header.</question>
+    <answer>Priya Nair</answer>
+  </qa_pair>
+</evaluation>

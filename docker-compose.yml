@@ -1,0 +1,24 @@
+# Enhancv MCP server over Streamable HTTP.
+# Secrets come from the environment or a git-ignored .env file, never from this file:
+#   cp .env.example .env     # set ENHANCV_API_KEY and MCP_HTTP_AUTH_TOKEN (openssl rand -hex 32)
+#   docker compose up -d
+# MCP clients connect to http://127.0.0.1:3000/mcp with "Authorization: Bearer <MCP_HTTP_AUTH_TOKEN>".
+services:
+  enhancv-mcp:
+    image: ghcr.io/kieksme/enhancv-mcp:latest
+    # build: .   # uncomment to build locally instead of pulling the published image
+    init: true
+    ports:
+      # Bound to localhost only. Put a TLS-terminating reverse proxy in front for remote access
+      # and add its public host name to MCP_HTTP_ALLOWED_HOSTS.
+      - "127.0.0.1:3000:3000"
+    environment:
+      ENHANCV_API_KEY: ${ENHANCV_API_KEY:?set ENHANCV_API_KEY (Enhancv Account Settings > Profile > API Keys)}
+      MCP_HTTP_AUTH_TOKEN: ${MCP_HTTP_AUTH_TOKEN:?set MCP_HTTP_AUTH_TOKEN (e.g. openssl rand -hex 32)}
+      MCP_HTTP_ALLOWED_HOSTS: ${MCP_HTTP_ALLOWED_HOSTS:-localhost,127.0.0.1}
+    restart: unless-stopped
+    # Hardening: no writes, no capabilities, no privilege escalation.
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true

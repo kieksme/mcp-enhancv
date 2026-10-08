@@ -1,0 +1,64 @@
+{
+  "name": "@kieksme/enhancv-mcp",
+  "version": "0.0.0",
+  "description": "MCP server for the Enhancv resume API: list, read, create, upload, export (PDF) and delete resumes",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "enhancv-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kieksme/mcp-enhancv.git"
+  },
+  "homepage": "https://github.com/kieksme/mcp-enhancv#readme",
+  "bugs": {
+    "url": "https://github.com/kieksme/mcp-enhancv/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "enhancv",
+    "resume",
+    "cv"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "prebuild": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\"",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "mock:api": "tsx scripts/mock-api.ts",
+    "pack:check": "node scripts/pack-check.mjs",
+    "smoke:dist": "node scripts/smoke-dist.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "^2.1.1",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.3.1",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  },
+  "packageManager": "pnpm@10.33.2"
+}

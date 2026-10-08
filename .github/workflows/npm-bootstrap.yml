@@ -1,0 +1,51 @@
+name: npm Bootstrap (one-time)
+
+# npm Trusted Publishing can only be configured for a package that already exists, so the very first version is
+# published with a temporary token. Steps (details in CONTRIBUTING.md):
+#   1. Create a granular npm access token with publish rights for @kieksme and store it as repository secret NPM_TOKEN.
+#   2. After the first release PR is merged (tag 0.1.0), run this workflow with that tag.
+#   3. On npmjs.com configure the Trusted Publisher (repository kieksme/mcp-enhancv, workflow publish.yml).
+#   4. Delete the NPM_TOKEN secret and delete this workflow file.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish (for example 0.1.0)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write # provenance attestation
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM_TOKEN secret is present
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: test -n "$NPM_TOKEN" || { echo "Repository secret NPM_TOKEN is not set"; exit 1; }
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+      - name: Tag matches package.json version
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "$VERSION" ]; then echo "Tag $TAG does not match package.json version $VERSION"; exit 1; fi
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm pack:check
+      - name: Publish the first version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx --yes npm@11.5.1 publish --access public --provenance
