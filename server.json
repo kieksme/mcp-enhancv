@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.kieksme/enhancv-mcp",
+  "title": "Enhancv",
+  "description": "Manage Enhancv resumes: list, read, create, upload, export to PDF, duplicate and delete.",
+  "repository": {
+    "url": "https://github.com/kieksme/mcp-enhancv",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/kieksme/mcp-enhancv#readme",
+  "version": "1.0.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@kieksme/enhancv-mcp",
+      "version": "1.0.1",
+      "runtimeHint": "npx",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "ENHANCV_API_KEY",
+          "description": "Enhancv API key (starts with enh_live_). Create it under Account Settings > Profile > API Keys (Business Plus plan).",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "ENHANCV_FILES_DIR",
+          "description": "Optional directory below which resume upload and PDF export may read and write files. File access is off when unset.",
+          "isRequired": false,
+          "format": "filepath"
+        }
+      ]
+    }
+  ]
+}

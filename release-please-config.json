@@ -12,7 +12,9 @@
       "extra-files": [
         { "type": "generic", "path": "src/version.ts" },
         { "type": "json", "path": "plugins/enhancv/.claude-plugin/plugin.json", "jsonpath": "$.version" },
-        { "type": "json", "path": "plugins/enhancv/.codex-plugin/plugin.json", "jsonpath": "$.version" }
+        { "type": "json", "path": "plugins/enhancv/.codex-plugin/plugin.json", "jsonpath": "$.version" },
+        { "type": "json", "path": "server.json", "jsonpath": "$.version" },
+        { "type": "json", "path": "server.json", "jsonpath": "$.packages[0].version" }
       ],
       "changelog-sections": [
         { "type": "feat", "section": "Added" },

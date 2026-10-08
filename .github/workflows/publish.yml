@@ -88,3 +88,24 @@ jobs:
           # GitHub Packages does not support npm provenance; package.json enables it for npmjs.com.
           NPM_CONFIG_PROVENANCE: 'false'
         run: npx --yes npm@11.5.1 publish --access public --provenance=false
+
+  # Official MCP Registry (registry.modelcontextprotocol.io). PulseMCP and other directories ingest from it.
+  # Authenticates with GitHub OIDC for the io.github.kieksme/* namespace; needs the npm package to be live
+  # because the registry checks `mcpName` in the published package.json.
+  publish-registry:
+    needs: publish-npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # GitHub OIDC login for mcp-publisher
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+      - name: Publish server.json to the MCP Registry
+        run: |
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish

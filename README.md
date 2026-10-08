@@ -284,10 +284,17 @@ release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Where to find this server
 
-- [ ] Submitted to [MCP Market](https://mcpmarket.com/submit)
-- [ ] Submitted to [MCP Marketplace](https://mcp-marketplace.io/)
+Listing status of the well-known MCP directories:
 
-Both listings need a maintainer to sign in and submit the form manually.
+- [ ] [Official MCP Registry](https://registry.modelcontextprotocol.io) as `io.github.kieksme/enhancv-mcp`. [`server.json`](server.json) and `mcpName` in `package.json` are in place; `publish.yml` pushes every release (GitHub OIDC). The first publish happens with the next release or a manual run of `publish.yml`.
+- [ ] [PulseMCP](https://www.pulsemcp.com/submit) ingests from the official registry; submit manually if it does not show up after a few days.
+- [ ] [Glama](https://glama.ai/mcp/servers): [`glama.json`](glama.json) claims ownership; add the server via the Glama UI.
+- [ ] [Smithery](https://smithery.ai/new): needs a maintainer to sign in and register the repository or package.
+- [ ] [mcp.so](https://mcp.so/submit): submission form.
+- [ ] [MCP Market](https://mcpmarket.com/submit)
+- [ ] [MCP Marketplace](https://mcp-marketplace.io/)
+
+Everything except the official registry (automated) needs a maintainer to sign in and submit manually.
 
 ## License
 
