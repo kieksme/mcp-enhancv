@@ -41,7 +41,7 @@ ENHANCV_API_URL=http://127.0.0.1:8787/api/v1 ENHANCV_API_KEY=enh_live_mock_key_f
 Releases are automated with [Release Please](https://github.com/googleapis/release-please):
 
 1. Merge changes to `main` with Conventional Commits. Release Please opens or updates a PR `chore(main): release X.Y.Z` with the changelog and version bumps
-   (`package.json`, `.release-please-manifest.json`, `src/version.ts`).
+   (`package.json`, `.release-please-manifest.json`, `src/version.ts` and the plugin manifests in `plugins/enhancv/`).
 2. Merging that PR creates the tag `X.Y.Z` (no `v` prefix) and the GitHub release. `release-please.yml` then dispatches
    - `publish.yml`: validates, then publishes to **npmjs.com** (Trusted Publishing, provenance) and **GitHub Packages** as two independent jobs,
    - `docker-publish.yml`: smoke-tests and pushes `ghcr.io/kieksme/enhancv-mcp` (`X.Y.Z`, `X.Y`, `latest`; `linux/amd64` + `linux/arm64`; provenance and SBOM attached).

@@ -42,6 +42,42 @@ describe('release identity', () => {
   });
 });
 
+describe('agent plugins (Claude Code and Codex)', () => {
+  const claude = json('plugins/enhancv/.claude-plugin/plugin.json');
+  const codex = json('plugins/enhancv/.codex-plugin/plugin.json');
+  const mcp = json('plugins/enhancv/.mcp.json');
+
+  it('keeps both plugin manifests on the package version and lets Release Please bump them', () => {
+    expect(claude.version).toBe(pkg.version);
+    expect(codex.version).toBe(pkg.version);
+    const extra = json('release-please-config.json').packages['.']['extra-files'];
+    for (const path of ['plugins/enhancv/.claude-plugin/plugin.json', 'plugins/enhancv/.codex-plugin/plugin.json']) {
+      expect(extra).toContainEqual({ type: 'json', path, jsonpath: '$.version' });
+    }
+  });
+
+  it('launches the published package over stdio without embedding credentials', () => {
+    const servers = [claude.mcpServers.enhancv, mcp.mcpServers.enhancv];
+    for (const server of servers) {
+      expect(server.command).toBe('npx');
+      expect(server.args).toEqual(['-y', pkg.name]);
+    }
+    expect(codex.mcpServers).toBe('./.mcp.json');
+    expect(mcp.mcpServers.enhancv.env_vars).toContain('ENHANCV_API_KEY');
+    expect(claude.mcpServers.enhancv.env.ENHANCV_API_KEY).toBe('${user_config.enhancv_api_key}');
+    expect(claude.userConfig.enhancv_api_key.sensitive).toBe(true);
+    expect(JSON.stringify([claude, codex, mcp])).not.toMatch(/enh_live_\w{4,}/);
+  });
+
+  it('lists the plugin in both marketplaces with a source that exists', () => {
+    const claudeMarket = json('.claude-plugin/marketplace.json');
+    const codexMarket = json('.agents/plugins/marketplace.json');
+    expect(claudeMarket.plugins).toContainEqual(expect.objectContaining({ name: claude.name, source: './plugins/enhancv' }));
+    expect(codexMarket.plugins).toContainEqual(expect.objectContaining({ name: codex.name, source: { source: 'local', path: './plugins/enhancv' } }));
+    expect(claude.name).toBe(codex.name);
+  });
+});
+
 describe('publishing pipeline', () => {
   it('publishes to npmjs.com with Trusted Publishing and to GitHub Packages without a long-lived token', () => {
     const publish = workflows['publish.yml']!;
