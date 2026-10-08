@@ -1,0 +1,16 @@
+node_modules
+.pnpm-store
+dist
+coverage
+.git
+.github
+.env
+.env.*
+*.log
+*.tgz
+test
+evaluations
+scripts
+docs
+.vscode
+.DS_Store
