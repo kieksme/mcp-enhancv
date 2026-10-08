@@ -5,11 +5,12 @@
 # For stdio use: docker run -i --rm -e MCP_TRANSPORT=stdio -e ENHANCV_API_KEY ghcr.io/kieksme/enhancv-mcp
 
 # ---- build ----
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 # Keep in sync with "packageManager" in package.json (checked by test/release-metadata.test.ts).
 ARG PNPM_VERSION=10.33.2
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+# Node 25+ no longer ships Corepack, so install pnpm via npm.
+RUN npm install -g pnpm@${PNPM_VERSION}
 COPY package.json pnpm-lock.yaml .pnpmfile.cjs ./
 RUN pnpm install --frozen-lockfile
 COPY tsconfig.json tsconfig.build.json ./
@@ -17,7 +18,7 @@ COPY src ./src
 RUN pnpm build && pnpm prune --prod
 
 # ---- runtime ----
-FROM node:24-alpine AS runtime
+FROM node:26-alpine AS runtime
 LABEL org.opencontainers.image.title="enhancv-mcp" \
       org.opencontainers.image.description="MCP server for the Enhancv resume API" \
       org.opencontainers.image.source="https://github.com/kieksme/mcp-enhancv" \
