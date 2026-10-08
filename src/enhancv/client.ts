@@ -307,7 +307,6 @@ export function parseFilename(header: string | null): string | undefined {
     }
   }
   if (!name) return undefined;
-  // eslint-disable-next-line no-control-regex
   const safe = name.replace(/[\\/\u0000-\u001f]/g, '_').replace(/^\.+/, '').trim().slice(0, 200);
   return safe || undefined;
 }

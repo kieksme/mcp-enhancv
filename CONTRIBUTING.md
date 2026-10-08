@@ -9,6 +9,7 @@
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm lint           # ESLint (typescript-eslint); pnpm lint:fix for autofixes
 pnpm typecheck
 pnpm build
 pnpm test            # unit tests + evaluation reference solutions
