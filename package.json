@@ -1,6 +1,6 @@
 {
   "name": "@kieksme/enhancv-mcp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "MCP server for the Enhancv resume API: list, read, create, upload, export (PDF) and delete resumes",
   "type": "module",
   "main": "dist/index.js",

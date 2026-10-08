@@ -1,7 +1,7 @@
 {
   "name": "enhancv",
   "displayName": "Enhancv",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Manage Enhancv resumes from Claude: list, read, create, upload, export (PDF), duplicate and delete.",
   "author": {
     "name": "kieksme",
@@ -10,7 +10,12 @@
   "homepage": "https://github.com/kieksme/mcp-enhancv#readme",
   "repository": "https://github.com/kieksme/mcp-enhancv",
   "license": "GPL-3.0-or-later",
-  "keywords": ["enhancv", "resume", "cv", "mcp"],
+  "keywords": [
+    "enhancv",
+    "resume",
+    "cv",
+    "mcp"
+  ],
   "userConfig": {
     "enhancv_api_key": {
       "type": "string",
@@ -28,7 +33,10 @@
   "mcpServers": {
     "enhancv": {
       "command": "npx",
-      "args": ["-y", "@kieksme/enhancv-mcp"],
+      "args": [
+        "-y",
+        "@kieksme/enhancv-mcp"
+      ],
       "env": {
         "ENHANCV_API_KEY": "${user_config.enhancv_api_key}",
         "ENHANCV_FILES_DIR": "${user_config.files_dir}"
