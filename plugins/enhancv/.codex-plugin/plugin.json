@@ -1,6 +1,6 @@
 {
   "name": "enhancv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manage Enhancv resumes from Codex: list, read, create, upload, export (PDF), duplicate and delete.",
   "author": {
     "name": "kieksme",

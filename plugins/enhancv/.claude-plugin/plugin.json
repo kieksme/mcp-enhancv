@@ -1,7 +1,7 @@
 {
   "name": "enhancv",
   "displayName": "Enhancv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manage Enhancv resumes from Claude: list, read, create, upload, export (PDF), duplicate and delete.",
   "author": {
     "name": "kieksme",
