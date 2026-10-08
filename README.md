@@ -15,6 +15,15 @@
   <a href="evaluations/README.md">
     <img alt="MCP quality: evaluated" src="https://img.shields.io/badge/mcp--quality-evaluated-00FFDC?style=flat-square&labelColor=1E2A45">
   </a>
+  <a href="https://www.npmjs.com/package/@kieksme/enhancv-mcp">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@kieksme/enhancv-mcp?style=flat-square&labelColor=1E2A45&color=00FFDC">
+  </a>
+  <a href="https://www.npmjs.com/package/@kieksme/enhancv-mcp">
+    <img alt="npm downloads" src="https://img.shields.io/npm/dm/@kieksme/enhancv-mcp?style=flat-square&labelColor=1E2A45&color=00FFDC">
+  </a>
+  <a href="https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.kieksme/enhancv-mcp">
+    <img alt="Official MCP Registry" src="https://img.shields.io/badge/MCP_Registry-io.github.kieksme%2Fenhancv--mcp-1E2A45?style=flat-square">
+  </a>
   <a href="./LICENSE">
     <img alt="GPL-3.0-or-later license" src="https://img.shields.io/badge/license-GPL--3.0--or--later-1E2A45?style=flat-square">
   </a>
