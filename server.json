@@ -8,14 +8,16 @@
     "source": "github"
   },
   "websiteUrl": "https://github.com/kieksme/mcp-enhancv#readme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@kieksme/enhancv-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "runtimeHint": "npx",
-      "transport": { "type": "stdio" },
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "ENHANCV_API_KEY",

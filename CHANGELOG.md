@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/kieksme/mcp-enhancv/compare/1.0.1...1.0.2) (2026-10-21)
+
+
+### Fixed
+
+* **deps:** Bump zod from 4.6.5 to 4.6.6 ([#19](https://github.com/kieksme/mcp-enhancv/issues/19)) ([52113f3](https://github.com/kieksme/mcp-enhancv/commit/52113f35d7c0ea6538e74fd01f38e12e3404e722))
+
 ## [1.0.1](https://github.com/kieksme/mcp-enhancv/compare/1.0.0...1.0.1) (2026-10-08)
 
 
